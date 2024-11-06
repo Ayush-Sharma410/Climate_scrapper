@@ -1,5 +1,5 @@
 # Open the input and output files
-with open('output.csv', 'r') as infile, open('output2.csv', 'w') as outfile:
+with open('marh.csv', 'r') as infile, open('jammu_corrected.csv', 'w') as outfile:
     # Read each line in the input file
     for line in infile:
         # Split the line into fields

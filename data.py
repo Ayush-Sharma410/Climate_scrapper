@@ -3,12 +3,12 @@ from pyppeteer import launch
 import csv
 import re
 years = [2015,2016,2017,2018,2019,2020,2021]
-cities = ['ludhiana', 'agra', 'faridabad', 'meerut', 'varanasi', 'srinagar', 'amritsar', 'allahabad', 'jodhpur', 'chandigarh', 'kota', 'bareilly', 'moradabad', 'gurgaon', 'aligarh', 'jalandhar', 'saharanpur', 'gorakhpur', 'bikaner', 'noida', 'firozabad', 'dehradun', 'ajmer', 'loni', 'jhansi', 'jammu']
+cities = ['jaipur/VIJP','lucknow/VILK','kanpur/VECX','ludhiana/VILD', 'agra/VIAG', 'srinagar/VISR', 'amritsar/VIAR', 'jodhpur/VIJO', 'chandigarh/VICG', 'kota/VIKO', 'moradabad/VIPT', 'gurgaon/VIDP','gorakhpur/VEGK', 'bikaner/VIBK','dehradun/VIDN', 'jhansi/VIJN', 'marh/VIJU']
 async def scrape_week_data(city,year,month,day):
     try:
-        browser = await launch({"headless": True})
+        browser = await launch({"headless": False})
         page = await browser.newPage()
-        url = f'https://www.wunderground.com/history/weekly/in/{city}/VIDD/date/{year}-{month}-{day}'
+        url = f'https://www.wunderground.com/history/weekly/in/{city}/date/{year}-{month}-{day}'
         await page.goto(url)
 
         # Sleep for 10 seconds
@@ -22,11 +22,14 @@ async def scrape_week_data(city,year,month,day):
                 const elements = document.querySelectorAll('tbody .ng-star-inserted');
                 return Array.from(elements).map(element => element.innerText);
             }''')
+            print(result.index('28.8\t28.7\t28.7\n'))
+            print(result.index('Total\n0.00\n0.00\n0.00\n0.00\n0.00\n0.00\n0.00'))
         except:
             result=None
         return result
     except Exception as e:
         print(f"An error occurred: {e}")
+        print(f'https://www.wunderground.com/history/weekly/in/{city}/date/{year}-{month}-{day}')
     finally:
         # Close the browser in the finally block to ensure it gets closed even if an exception occurs
         await browser.close()
